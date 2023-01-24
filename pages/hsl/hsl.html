@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>APB Color Convert</title>
+      <meta content="" name="description" />
+      <meta content="" name="keywords" />
+      <!-- Favicons -->
+      <link href="img/favicon.png" rel="icon" />
+      <link href="img/apple-touch-icon.png" rel="apple-touch-icon" />
+      <!-- Vendor CSS Files -->
+      <script src="https://kit.fontawesome.com/c531b13ecd.js" crossorigin="anonymous"></script>
+      <!-- CSS only -->
+
+      <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500" rel="stylesheet" />
+
+           <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+	        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+      <link href="css/base.css" rel="stylesheet" type="text/css" media="all"/>
+      <link href="css/main.css" rel="stylesheet" type="text/css" media="all"/>
+      <link href="css/flexslider.css" rel="stylesheet" type="text/css"  media="all" />
+      <link href="css/fonts.css" rel="stylesheet" type="text/css"  media="all" />
+
+      <!--Javascript-->
+
+      <script src="js/script.js"></script>
+
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+      <!--  Main CSS File -->
+      <link href="css/style.css" rel="stylesheet" />
+      <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" />
+   </head>
+
+   <body>
+      <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500" rel="stylesheet" />
+
+      <!--  Заголовок -->
+      <span>
+         <a class="name" style="color: aliceblue;">APB</a>
+         <a class="name occupation">Color</a>
+         <a class="name" style="color: aliceblue;">Converter</a>
+      </span>
+      <!--  Главная карта -->
+      <main class="card">
+         <!-- HEX -->
+
+         <div id="image">
+            <script src="js/jscolor.js"></script>
+            <input data-jscolor="{onInput:'update(this)',preset:'dark',value:'#FF79BA'}" id="colorInput" style="width: 238px;" />
+            <div class="rgbbox" id="image2">
+               <button class="rgbbutton" onclick="document.getElementById('colorInput').jscolor.show()"><i class="fa-solid fa-brush"></i></button>
+            </div>
+         </div>
+		 
+         <div class="background-repeat: no-repeat;">
+            <form>
+               <input class="form-control form-control-sm" id="imgInp" type="file" accept="image/jpeg,image/png" no-repeat;/>
+               <div class="thumbnail"><img id="blah" alt="" src="#" /></div>
+               <canvas id="cs"></canvas>
+            </form>
+         </div>
+		 
+         <!--  HSL цвета -->
+         <div class="card-details">
+            <div class="skills" style="color: #ff1ead;">APB HSL</div>
+            <div class="card-about">
+               <table>
+                  <tbody>
+                     <tr>
+                        <td class="label">&bull; Hue (Тон)</td>
+                        <td>
+                           <label style="color: white; font-size: 1.5em;" id="hue2">1</label>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="label">&bull; Sat (Насыщенность)</td>
+                        <td>
+                           <label style="color: white; font-size: 1.7em;" id="sat2">1</label>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="label">&bull; Lum (Яркость)</td>
+                        <td>
+                           <label style="color: white; font-size: 1.5em;" id="lum2">1</label>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <br />
+            <span style="color: red;">*</span> In-game brightness will affect color appearance.
+         </div>
+
+         <!-- ЦВве -->
+</main>
+         <header>
+            <a href="https://noodledemo.vercel.app/" style="color: aqua; border-bottom: 1.5px dashed;">Home</a>
+         </header>
+         <footer>
+            <div>
+               <a style="color: aliceblue;">&copy; 2023</a> <a style="color: #1effc3;" href="https://discordapp.com/users/156066024515567616/" target="_blank"><i class="fa-brands fa-discord"></i> Noodle</a>
+               <a style="color: aliceblue;">- The APB HSL system is a reduced value subset of standard HSL, true colour conversion for most colours is not possible.</a>
+            </div>
+         </footer>
+
+         <script>
+            //Импорт картинки
+            var reader = new FileReader();
+            reader.onload = function (e) {
+               $("#blah").attr("src", e.target.result);
+            };
+
+            function readURL(input) {
+               if (input.files && input.files[0]) {
+                  reader.readAsDataURL(input.files[0]);
+               }
+            }
+            $("#imgInp").change(function () {
+               readURL(this);
+            });
+            //Остальное
+            // vars
+            var img = _(".thumbnail img"),
+               canvas = _("#cs"),
+               result = _(".result"),
+               preview = _(".preview"),
+               x = "",
+               y = "";
+            // click function
+            img.addEventListener(
+               "click",
+               function (e) {
+                  // chrome
+                  if (e.offsetX) {
+                     x = e.offsetX;
+                     y = e.offsetY;
+                  }
+                  // firefox
+                  else if (e.layerX) {
+                     x = e.layerX;
+                     y = e.layerY;
+                  }
+                  useCanvas(canvas, img, function () {
+                     // get image data
+                     var p = canvas.getContext("2d").getImageData(x, y, 1, 1).data;
+                     // show info
+                     // add background in body
+                     document.getElementById("image2").style.backgroundColor = rgbToHex(p[0], p[1], p[2]);
+                     document.getElementById("image").style.backgroundColor = rgbToHex(p[0], p[1], p[2]);
+                     document.getElementById("colorInput").backgroundColor = rgbToHex(p[0], p[1], p[2]);
+                     document.getElementById("colorInput").value = rgbToHex(p[0], p[1], p[2]);
+                     var test = document.getElementById("colorInput").value;
+                     var color = test;
+                     var r = parseInt(color.substr(1, 2), 16);
+                     var g = parseInt(color.substr(3, 2), 16);
+                     var b = parseInt(color.substr(5, 2), 16);
+                     (r /= 255), (g /= 255), (b /= 255);
+                     var max = Math.max(r, g, b),
+                        min = Math.min(r, g, b);
+                     var h,
+                        s,
+                        l = (max + min) / 2;
+                     if (max == min) {
+                        h = s = 0; // achromatic
+                     } else {
+                        var d = max - min;
+                        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                        switch (max) {
+                           case r:
+                              h = (g - b) / d + (g < b ? 6 : 0);
+                              break;
+                           case g:
+                              h = (b - r) / d + 2;
+                              break;
+                           case b:
+                              h = (r - g) / d + 4;
+                              break;
+                        }
+                        h /= 6;
+                     }
+                     s = s * 100;
+                     s = Math.round(s);
+                     l = l * 100;
+                     l = Math.round(l);
+                     h = Math.round(360 * h);
+                     var colorInHSL = "hsl(" + h + ", " + s + "%, " + l + "%)";
+                     var hue_box = document.getElementById("hue2");
+                     var sat_box = document.getElementById("sat2");
+                     var lum_box = document.getElementById("lum2");
+                     var hue = 0;
+                     var sat = 0;
+                     var lum = 0;
+                     hue = (((h / 357) * 100) / 100) * 31;
+                     hue_box.innerHTML = hue.toFixed(0);
+                     sat = (s / 100) * 7;
+                     sat_box.innerHTML = sat.toFixed(0);
+                     lum = (l / 100) * 15;
+                     lum_box.innerHTML = lum.toFixed(0);
+                  });
+               },
+               false
+            );
+            // preview function mousemove
+            img.addEventListener(
+               "mousemove",
+               function (e) {
+                  // chrome
+                  if (e.offsetX) {
+                     x = e.offsetX;
+                     y = e.offsetY;
+                  }
+                  // firefox
+                  else if (e.layerX) {
+                     x = e.layerX;
+                     y = e.layerY;
+                  }
+                  useCanvas(canvas, img, function () {
+                     // get image data
+                     var p = canvas.getContext("2d").getImageData(x, y, 1, 1).data;
+                     // show preview color
+                  });
+               },
+               false
+            );
+            // canvas function
+            function useCanvas(el, image, callback) {
+               el.width = image.width; // img width
+               el.height = image.height; // img height
+               // draw image in canvas tag
+               el.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
+               return callback();
+            }
+            // short querySelector
+            function _(el) {
+               return document.querySelector(el);
+            }
+            // convert rgba to hex
+            // http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+            function componentToHex(c) {
+               var hex = c.toString(16);
+               return hex.length == 1 ? "0" + hex : hex;
+            }
+
+            function rgbToHex(r, g, b) {
+               return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+            }
+
+            function findPos(obj) {
+               var curleft = 0,
+                  curtop = 0;
+               if (obj.offsetParent) {
+                  do {
+                     curleft += obj.offsetLeft;
+                     curtop += obj.offsetTop;
+                  } while ((obj = obj.offsetParent));
+                  return {
+                     x: curleft,
+                     y: curtop,
+                  };
+               }
+               return undefined;
+            }
+
+            function update(picker) {
+               //var style = document.getElementById("image2");
+               document.getElementById("image2").style.backgroundColor = [picker.toString()];
+               document.getElementById("image").style.backgroundColor = [picker.toString()];
+               var test = document.getElementById("colorInput").value;
+               var color = test;
+               var r = parseInt(color.substr(1, 2), 16);
+               var g = parseInt(color.substr(3, 2), 16);
+               var b = parseInt(color.substr(5, 2), 16);
+               (r /= 255), (g /= 255), (b /= 255);
+               var max = Math.max(r, g, b),
+                  min = Math.min(r, g, b);
+               var h,
+                  s,
+                  l = (max + min) / 2;
+               if (max == min) {
+                  h = s = 0; // achromatic
+               } else {
+                  var d = max - min;
+                  s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                  switch (max) {
+                     case r:
+                        h = (g - b) / d + (g < b ? 6 : 0);
+                        break;
+                     case g:
+                        h = (b - r) / d + 2;
+                        break;
+                     case b:
+                        h = (r - g) / d + 4;
+                        break;
+                  }
+                  h /= 6;
+               }
+               s = s * 100;
+               s = Math.round(s);
+               l = l * 100;
+               l = Math.round(l);
+               h = Math.round(360 * h);
+               var colorInHSL = "hsl(" + h + ", " + s + "%, " + l + "%)";
+               var hue_box = document.getElementById("hue2");
+               var sat_box = document.getElementById("sat2");
+               var lum_box = document.getElementById("lum2");
+               var hue = 0;
+               var sat = 0;
+               var lum = 0;
+               hue = (((h / 357) * 100) / 100) * 31;
+               hue_box.innerHTML = hue.toFixed(0);
+               sat = (s / 100) * 7;
+               sat_box.innerHTML = sat.toFixed(0);
+               lum = (l / 100) * 15;
+               lum_box.innerHTML = lum.toFixed(0);
+            }
+            jscolor.trigger("input");
+            jscolor.presets.default = {
+               //position: 'right',
+               previewSize: 1,
+               palette: [
+                  "#000000",
+                  "#7d7d7d",
+                  "#870014",
+                  "#A10001",
+                  "#ff7e26",
+                  "#fef100",
+                  "#22b14b",
+                  "#00a1e7",
+                  "#3f47cc",
+                  "#a349a4",
+                  "#ffffff",
+                  "#c3c3c3",
+                  "#b87957",
+                  "#feaec9",
+                  "#ffc80d",
+                  "#eee3af",
+                  "#b5e61d",
+                  "#99d9ea",
+                  "#7092be",
+                  "#c8bfe7",
+               ],
+               //paletteCols: 12,
+               //hideOnPaletteClick: true,
+            };
+         </script>
+      </main>
+      <!-- End #main -->
+      <!-- Vendor JS Files -->
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+   </body>
+</html>

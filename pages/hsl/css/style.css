@@ -1,0 +1,80 @@
+:root {
+  --blue: #007bff;
+  --indigo: #674eec;
+  --purple: #8445f7;
+  --pink: #ff4169;
+  --red: #c4183c;
+  --orange: #fb7906;
+  --yellow: #ffb400;
+  --green: #17c671;
+  --teal: #1adba2;
+  --cyan: #00b8d8;
+  --white: #fff;
+  --gray: #868e96;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #5A6169;
+  --success: #17c671;
+  --info: #00b8d8;
+  --warning: #ffb400;
+  --danger: #c4183c;
+  --light: #e9ecef;
+  --dark: #212529;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+}
+
+.bg-dark {
+  background-color:#343A40 !important;
+}
+
+.btn-primary{
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.bg-warning{
+  background-color: #ffb400 !important;
+}
+
+.alert-success{
+  background-color: #D3EDDA !important;
+}
+
+
+.coloring{
+  max-width: 50%;
+   background-color: Transparent;
+  background-repeat:no-repeat;
+    border: none;
+}
+
+
+.rgbbutton{
+  width: 100px;
+  height: 100px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  color:#e9ecef;
+}
+
+.rgbbox{
+  width: 100px;
+  height: 100px;
+  border: 1px solid white;
+}
+
+
+
+.thumbnail img {
+  cursor: crosshair;
+  border: 1px solid #fff;
+}
+

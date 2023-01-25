@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap");
+
+* {
+	transform-style: preserve-3d;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #444;
+	perspective: 440px;
+	overflow: hidden; // without this, 3D layering does not work!
+	background-color: #f4d03f;
+	background-image: linear-gradient(
+		15deg,
+		#225522 10%,
+		#447744 45%,
+		#220022 45.1%,
+		#1a001a 90%
+	);
+
+	&::before {
+		position: absolute;
+		content: "she-hulk";
+		height: 100%;
+		width: 200%;
+		font-size: 300px;
+		letter-spacing: -18px;
+		color: white;
+		font-family: "Roboto", sans-serif;
+		text-transform: uppercase;
+		font-weight: bold;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transform: rotate(15deg) translatey(-26px);
+		color: #447744;
+		filter: blur(1.5px);
+	}
+
+	&::after {
+		position: absolute;
+		content: "";
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background-image: url(https://assets.codepen.io/439000/pattern.webp);
+		background-size: cover;
+		background-position: center;
+		opacity: 0.05;
+		mix-blend-mode: hard-light;
+	}
+}
+
+.card {
+	position: relative;
+	width: 320px;
+	height: 540px;
+	margin: 4rem;
+
+	@media screen and (max-width: 500px) {
+		width: 240px;
+		height: 540/320 * 240px;
+	}
+
+	.layer {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		background-repeat: no-repeat;
+		background-position: bottom center;
+		background-size: contain;
+
+		&-top {
+			transform: translate3d(0, 0, 6px);
+			background-image: url(https://assets.codepen.io/439000/she1.webp);
+		}
+
+		&-middle {
+			transform: translate3d(0, 0, 0);
+			background-image: url(https://assets.codepen.io/439000/she2.webp);
+		}
+
+		&-bottom {
+			transform: translate3d(0, 0, -6px);
+			background-image: url(https://assets.codepen.io/439000/she3.webp);
+		}
+
+		&-bg {
+			height: 98%;
+			border-radius: 10px;
+			box-shadow: 0 0 140px 2px rgba(lightgreen, 0.5);
+			transform: translate3d(0, 30px, -25px) rotatex(4deg);
+
+			&::before {
+				position: absolute;
+				content: "";
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				background-color: #f4d03f;
+				background-image: linear-gradient(-25deg, #448844 10%, #660066 90%);
+			}
+			&::after {
+				position: absolute;
+				content: "";
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				background-image: url(https://assets.codepen.io/439000/giphy.gif);
+				background-size: cover;
+				mix-blend-mode: luminosity;
+			}
+		}
+		&-edge {
+			width: 86%;
+			height: 88%;
+			transform: translate3d(0, 34px, 5px) rotatex(3deg);
+			border: 20px solid black;
+			border-radius: 10px;
+		}
+	}
+}
